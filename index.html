@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTM Studios - Tech Innovation</title>
+    <link rel="icon" type="image/x-icon" href="resources/DTM_Studio_logo.ico">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        :root {
+            --bg-dark: #0f0f1a;
+            --bg-dark-light: #1a1a2e;
+            --text-light: #e0e0e0;
+            --accent-blue: #4a90e2;
+            --accent-purple: #9013fe;
+            --accent-teal: #50e3c2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(74, 144, 226, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.8); }
+        }
+
+        /* Header Navigation */
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1200px;
+            background-color: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: glowPulse 3s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .header-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .header-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            transition: width 0.3s ease;
+        }
+
+        .header-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .header-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-dark-light));
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            animation: slideIn 1s ease-out;
+        }
+
+        .hero-subtitle {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--text-light);
+            font-size: 1.3rem;
+            opacity: 0;
+            animation: slideIn 1s ease-out 0.5s forwards;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            opacity: 0;
+            animation: slideIn 1s ease-out 0.7s forwards;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            transform: perspective(1px) translateZ(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Services Section */
+        .services {
+            background-color: var(--bg-dark-light);
+            padding: 100px 20px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background-color: var(--bg-dark);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .service-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .service-title {
+            color: var(--text-light);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--bg-dark-light);
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                padding: 15px;
+            }
+
+            .header-links {
+                margin-top: 15px;
+            }
+        }
+
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-logo {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 30px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top: 5px solid var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loaded {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        :root {
+            --bg-dark: #0f0f1a;
+            --bg-dark-light: #1a1a2e;
+            --text-light: #e0e0e0;
+            --accent-blue: #4a90e2;
+            --accent-purple: #9013fe;
+            --accent-teal: #50e3c2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(74, 144, 226, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(74, 144, 226, 0.8); }
+        }
+
+        @keyframes heroBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes heroElementsAppear {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header Navigation */
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 1200px;
+            background-color: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: glowPulse 3s infinite;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section Enhanced */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(
+                -45deg, 
+                var(--bg-dark), 
+                var(--bg-dark-light), 
+                var(--accent-blue), 
+                var(--accent-purple)
+            );
+            background-size: 400% 400%;
+            animation: heroBackground 15s ease infinite;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            animation: heroElementsAppear 1s forwards 0.5s;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .hero-subtitle {
+            max-width: 800px;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        /* Timeline Section Enhanced */
+        /* Updated Timeline Styles */
+        .timeline {
+            background-color: var(--bg-dark-light);
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .timeline-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 0;
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-blue), var(--accent-purple));
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .timeline-item:nth-child(odd) {
+            padding-right: 50%;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            padding-left: 50%;
+            flex-direction: row-reverse;
+            text-align: left;
+        }
+
+        .timeline-item.reveal {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-image {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .timeline-content {
+            background-color: var(--bg-dark);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .timeline-line {
+                display: none;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+                text-align: center;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+
+            .timeline-item::before {
+                display: none;
+            }
+
+            .timeline-image {
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .timeline-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            .timeline-item:nth-child(even) {
+                flex-direction: column;
+            }
+            .timeline-image {
+                margin: 0 0 1rem 0;
+            }
+            .timeline-line {
+                display: none;
+            }
+        }
+
+        .timeline-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3rem;
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 0.8s ease;
+}
+
+.timeline-item.reveal {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.timeline-item:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+
+    </style>
+
+<script src="timeline-script.js"></script>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <img src="resources/DTM_Studio_logo.png" alt="DTM Studios Logo" class="loading-logo">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="header-logo">
+            <img src="resources/DTM_Studio_logo.png" alt="DTM Studios Logo">
+            <h1>DTM STUDIOS</h1>
+        </div>
+        <nav class="header-links">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+   <!-- Hero Section with Enhanced Animation -->
+   <section id="home" class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Innovating Technology's Future</h1>
+        <p class="hero-subtitle">DTM Studios drives innovation through cutting-edge AI, sustainable solutions, and advanced technological breakthroughs that reshape our world.</p>
+        <div class="hero-cta">
+            <a href="#contact" class="btn btn-primary">Get Started</a>
+            <a href="#services" class="btn btn-secondary">Our Services</a>
+        </div>
+    </div>
+</section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="service-icon fas fa-code"></i>
+                <h3 class="service-title">Software Development</h3>
+                <p>Custom software solutions tailored to your unique business requirements.</p>
+            </div>
+            <div class="service-card">
+                <i class="service-icon fas fa-cloud"></i>
+                <h3 class="service-title">Cloud Solutions</h3>
+                <p>Scalable and secure cloud infrastructure design and management.</p>
+            </div>
+            <div class="service-card">
+                <i class="service-icon fas fa-chart-line"></i>
+                <h3 class="service-title">Digital Transformation</h3>
+                <p>Strategic consulting to modernize your digital ecosystem.</p>
+            </div>
+        </div>
+    </section>
+    <section id="timeline" class="timeline">
+        <div class="timeline-line"></div>
+        <div class="timeline-container">
+            <div class="timeline-item">
+                <img src="resources/lps-logo.png" alt="LPS" class="timeline-image">
+                <div class="timeline-content">
+                    <h3>2022 - Creation of the team</h3>
+                    <p>Launched our groundbreaking Product A, marking a significant milestone in technological innovation.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <img src="resources/2025-cloud.jpg" alt="2025 Cloud Solutions" class="timeline-image">
+                <div class="timeline-content">
+                    <h3>2025 - IDK</h3>
+                    <p>IDK.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <img src="resources/2026-ai.jpg" alt="2026 AI Development" class="timeline-image">
+                <div class="timeline-content">
+                    <h3>2026 - IDK</h3>
+                    <p>IDK</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <img src="resources/2026-ai.jpg" alt="2026 AI Development" class="timeline-image">
+                <div class="timeline-content">
+                    <h3>2027 - IDK</h3>
+                    <p>IDK</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="resources/DTM_Studio_logo.png" alt="DTM Studios Logo" style="width: 70px; height: 70px;">
+                <h2>DTM STUDIOS</h2>
+            </div>
+            <div class="footer-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+        <p style="margin-top: 20px; color: var(--text-light);">
+            © 2024 DTM Studios. All Rights Reserved.
+        </p>
+    </footer>
+
+    <!-- Script-->
+    <script>
+        // Loading Screen Logic
+        window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loading-screen');
+            
+            // Simulate additional loading time
+            setTimeout(() => {
+                loadingScreen.classList.add('loaded');
+                
+                // Completely remove the loading screen after transition
+                setTimeout(() => {
+                    loadingScreen.remove();
+                }, 500);
+            }, 2000);
+        });
+    </script>
+
+</body>
+</html>
